@@ -50,11 +50,11 @@ def GPE_SOLVER_INITIAL(Parameters,initial_cond,PA,PB):
 
     #########################################  RK4
     dcA_1 = -(1j/hbar)*(-J*cB   +  (0.5*1j*hbar*(R*nrA-gamma_C) +  g_C*(abs(cA))**2 + g_R*nrA + g_R*niA + DA)*cA)
-    dnrA_1 = (kappa**2)*niA - gamma_R*nrA - R*nrA*((abs(cA))**2)
+    dnrA_1 = (kappa**2)*niA*niA - gamma_R*nrA - R*nrA*((abs(cA))**2)
     dniA_1 = PA[i] - kappa*kappa*(niA**2) - gamma_I*niA
 
     dcB_1 = -(1j/hbar)*(-J*cA   +  (0.5*1j*hbar*(R*nrB-gamma_C) +  g_C*(abs(cB))**2 + g_R*nrB + g_R*niB + DB)*cB)
-    dnrB_1 = (kappa**2)*niB - gamma_R*nrB - R*nrB*((abs(cB))**2)
+    dnrB_1 = (kappa**2)*niB*niB - gamma_R*nrB - R*nrB*((abs(cB))**2)
     dniB_1 = PB[i] - kappa*kappa*(niB**2) - gamma_I*niB
 
     cA_sim = cA + 0.5*dcA_1*dt
@@ -66,11 +66,11 @@ def GPE_SOLVER_INITIAL(Parameters,initial_cond,PA,PB):
     niB_sim = niB + 0.5*dniB_1*dt
     #---------------------------------------------------------------------------------------------------------------------------
     dcA_2 = -(1j/hbar)*(-J*cB_sim   +  (0.5*1j*hbar*(R*nrA_sim-gamma_C) +  g_C*(abs(cA_sim))**2 + g_R*nrA_sim + g_R*niA_sim + DA)*cA_sim)
-    dnrA_2 = (kappa**2)*niA_sim - gamma_R*nrA_sim - R*nrA_sim*((abs(cA_sim))**2)
+    dnrA_2 = (kappa**2)*niA_sim*niA_sim - gamma_R*nrA_sim - R*nrA_sim*((abs(cA_sim))**2)
     dniA_2 = PA[i] - kappa*kappa*(niA_sim**2) - gamma_I*niA_sim
 
     dcB_2 = -(1j/hbar)*(-J*cA_sim   +  (0.5*1j*hbar*(R*nrB_sim-gamma_C) +  g_C*(abs(cB_sim))**2 + g_R*nrB_sim + g_R*niB_sim + DB)*cB_sim)
-    dnrB_2 = (kappa**2)*niB_sim - gamma_R*nrB_sim - R*nrB_sim*((abs(cB_sim))**2)
+    dnrB_2 = (kappa**2)*niB_sim*niB_sim - gamma_R*nrB_sim - R*nrB_sim*((abs(cB_sim))**2)
     dniB_2 = PB[i] - kappa*kappa*(niB_sim**2) - gamma_I*niB_sim
 
     cA_sim = cA + 0.5*dcA_2*dt
@@ -82,11 +82,11 @@ def GPE_SOLVER_INITIAL(Parameters,initial_cond,PA,PB):
     niB_sim = niB + 0.5*dniB_2*dt
     #---------------------------------------------------------------------------------------------------------------------------
     dcA_3 = -(1j/hbar)*(-J*cB_sim   +  (0.5*1j*hbar*(R*nrA_sim-gamma_C) +  g_C*(abs(cA_sim))**2 + g_R*nrA_sim + g_R*niA_sim + DA)*cA_sim)
-    dnrA_3 = (kappa**2)*niA_sim - gamma_R*nrA_sim - R*nrA_sim*((abs(cA_sim))**2)
+    dnrA_3 = (kappa**2)*niA_sim*niA_sim - gamma_R*nrA_sim - R*nrA_sim*((abs(cA_sim))**2)
     dniA_3 = PA[i] - kappa*kappa*(niA_sim**2) - gamma_I*niA_sim
 
     dcB_3 = -(1j/hbar)*(-J*cA_sim   +  (0.5*1j*hbar*(R*nrB_sim-gamma_C) +  g_C*(abs(cB_sim))**2 + g_R*nrB_sim + g_R*niB_sim + DB)*cB_sim)
-    dnrB_3 = (kappa**2)*niB_sim - gamma_R*nrB_sim - R*nrB_sim*((abs(cB_sim))**2)
+    dnrB_3 = (kappa**2)*niB_sim*niB_sim - gamma_R*nrB_sim - R*nrB_sim*((abs(cB_sim))**2)
     dniB_3 = PB[i] - kappa*kappa*(niB_sim**2) - gamma_I*niB_sim
 
     cA_sim = cA + dcA_3*dt
@@ -98,11 +98,11 @@ def GPE_SOLVER_INITIAL(Parameters,initial_cond,PA,PB):
     niB_sim = niB + dniB_3*dt
     #---------------------------------------------------------------------------------------------------------------------------
     dcA_4 = -(1j/hbar)*(-J*cB_sim   +  (0.5*1j*hbar*(R*nrA_sim-gamma_C) +  g_C*(abs(cA_sim))**2 + g_R*nrA_sim + g_R*niA_sim + DA)*cA_sim)
-    dnrA_4 = (kappa**2)*niA_sim - gamma_R*nrA_sim - R*nrA_sim*((abs(cA_sim))**2)
+    dnrA_4 = (kappa**2)*niA_sim*niA_sim - gamma_R*nrA_sim - R*nrA_sim*((abs(cA_sim))**2)
     dniA_4 = PA[i] - kappa*kappa*(niA_sim**2) - gamma_I*niA_sim
 
     dcB_4 = -(1j/hbar)*(-J*cA_sim   +  (0.5*1j*hbar*(R*nrB_sim-gamma_C) +  g_C*(abs(cB_sim))**2 + g_R*nrB_sim + g_R*niB_sim + DB)*cB_sim)
-    dnrB_4 = (kappa**2)*niB_sim - gamma_R*nrB_sim - R*nrB_sim*((abs(cB_sim))**2)
+    dnrB_4 = (kappa**2)*niB_sim*niB_sim - gamma_R*nrB_sim - R*nrB_sim*((abs(cB_sim))**2)
     dniB_4 = PB[i] - kappa*kappa*(niB_sim**2) - gamma_I*niB_sim
 
     cA = cA + (dcA_1+2*dcA_2+2*dcA_3+dcA_4)*(dt/6)
@@ -113,9 +113,254 @@ def GPE_SOLVER_INITIAL(Parameters,initial_cond,PA,PB):
     nrB = nrB + (dnrB_1+2*dnrB_2+2*dnrB_3+dnrB_4)*(dt/6)
     niB = niB + (dniB_1+2*dniB_2+2*dniB_3+dniB_4)*(dt/6)
     ###################################################################################
-  intCA = np.sum((abs(cA_data))**2)
-  intCB = np.sum((abs(cB_data))**2)
-  A = (abs(cA_data))**2
+  intCA = np.sum((abs(cA_data))**2)                         # the total emission intensity of site A
+  intCB = np.sum((abs(cB_data))**2)                         # the total emission intensity of site B
+  A = (abs(cA_data))**2                            
   B = (abs(cB_data))**2
 
   return intCA,intCB,A,B
+
+
+
+
+####################SOLVER USING THE 4TH ORDER RUNGE-KUTTA METHOD SOLVING THE MODEL EQUATIONS IN NEW VARIABLES #####################
+
+def GPE_SOLVER_NEW(Parameters,initial_cond,PA,PB):
+  [hbar,gamma_C,gamma_R,gamma_I,R,g_C,g_R,Delta,kappa,J] = Parameters
+  [cA,nrA,niA,cB,nrB,niB] = initial_cond
+
+  DA = Delta[0]
+  DB = Delta[1]
+  epsilon = DA-DB
+
+  dzeta_data = np.zeros([len(time)])                 # the normalized difference between condensate density in site A and B
+  phi_data = np.zeros([len(time)])                   # the difference in phase of condensate between A and B
+  n_total_data = np.zeros([len(time)])               # total polaritons in system
+  nrA_data = np.zeros([len(time)])
+  niA_data = np.zeros([len(time)])
+  nrB_data = np.zeros([len(time)])
+  niB_data = np.zeros([len(time)])
+
+  dzeta = ((abs(cA))**2 - (abs(cB))**2)/((abs(cA))**2 + (abs(cB))**2)
+  phi = 0
+  n_total = ((abs(cA))**2 + (abs(cB))**2)
+
+  for i in tqdm(range(len(time))):
+    dzeta_data[i] = dzeta
+    phi_data[i] = phi
+    n_total_data[i] = n_total
+    nrA_data[i] = nrA
+    niA_data[i] = niA
+    nrB_data[i] = nrB
+    niB_data[i] = niB
+
+    #####################################################################
+    ddzeta_1 = (R/2)*(nrA-nrB)*(1-dzeta*dzeta) - (2*J/hbar)*(np.sin(phi))*(np.sqrt(abs(1-dzeta*dzeta)))
+    dphi_1 = (1/hbar)*(g_R*(nrA-nrB) + g_R*(niA-niB)  -   epsilon   +   g_C*(dzeta*n_total) +  J*np.cos(phi)*dzeta/(np.sqrt(abs(1-dzeta*dzeta))))
+    dn_total_1 = n_total*((R/2)*(nrA+nrB)+(R/2)*(nrA-nrB)*dzeta-gamma_C)
+    dnrA_1 = kappa**2*niA   -  gamma_R*nrA  - (R/2)*nrA*(1+dzeta)*n_total
+    dnrB_1 = kappa**2*niB   -  gamma_R*nrB  - (R/2)*nrB*(1-dzeta)*n_total
+    dniA_1 = PA[i] - kappa**2*niA*niA - gamma_I*niA
+    dniB_1 = PB[i] - kappa**2*niB*niB - gamma_I*niB
+
+    dzeta_sim = dzeta + 0.5*ddzeta_1*dt
+    phi_sim = phi + 0.5*dphi_1*dt
+    n_total_sim = n_total + 0.5*dn_total_1*dt
+    nrA_sim = nrA + 0.5*dnrA_1*dt
+    nrB_sim = nrB + 0.5*dnrB_1*dt
+    niA_sim = niA + 0.5*dniA_1*dt
+    niB_sim = niB + 0.5*dniB_1*dt
+
+#-----------------------------------------------------------------------
+    ddzeta_2 = (R/2)*(nrA_sim-nrB_sim)*(1-dzeta_sim*dzeta_sim) - (2*J/hbar)*(np.sin(phi_sim))*(np.sqrt(abs(1-dzeta_sim*dzeta_sim)))
+    dphi_2 = (1/hbar)*(g_R*(nrA_sim-nrB_sim)+g_R*(niA_sim-niB_sim)  -   epsilon   +   g_C*(dzeta_sim*n_total_sim) +  J*np.cos(phi_sim)*dzeta_sim/(np.sqrt(abs(1-dzeta_sim*dzeta_sim))))
+    dn_total_2 = n_total_sim*((R/2)*(nrA_sim+nrB_sim)+(R/2)*(nrA_sim-nrB_sim)*dzeta_sim-gamma_C)
+    dnrA_2 = kappa**2*niA_sim   -  gamma_R*nrA_sim  - (R/2)*nrA_sim*(1+dzeta_sim)*n_total_sim
+    dnrB_2 = kappa**2*niB_sim   -  gamma_R*nrB_sim  - (R/2)*nrB_sim*(1-dzeta_sim)*n_total_sim
+    dniA_2 = PA[i] - kappa**2*niA_sim*niA_sim - gamma_I*niA_sim
+    dniB_2 = PB[i] - kappa**2*niB_sim*niB_sim - gamma_I*niB_sim
+
+    dzeta_sim = dzeta + 0.5*ddzeta_2*dt
+    phi_sim = phi + 0.5*dphi_2*dt
+    n_total_sim = n_total + 0.5*dn_total_2*dt
+    nrA_sim = nrA + 0.5*dnrA_2*dt
+    nrB_sim = nrB + 0.5*dnrB_2*dt
+    niA_sim = niA + 0.5*dniA_2*dt
+    niB_sim = niB + 0.5*dniB_2*dt
+
+    #---------------------------------------------------------------------------
+
+    ddzeta_3 = (R/2)*(nrA_sim-nrB_sim)*(1-dzeta_sim*dzeta_sim) - (2*J/hbar)*(np.sin(phi_sim))*(np.sqrt(abs(1-dzeta_sim*dzeta_sim)))
+    dphi_3 = (1/hbar)*(g_R*(nrA_sim-nrB_sim)+g_R*(niA_sim-niB_sim)  -   epsilon   +   g_C*(dzeta_sim*n_total_sim) +  J*np.cos(phi_sim)*dzeta_sim/(np.sqrt(abs(1-dzeta_sim*dzeta_sim))))
+    dn_total_3 = n_total_sim*((R/2)*(nrA_sim+nrB_sim)+(R/2)*(nrA_sim-nrB_sim)*dzeta_sim-gamma_C)
+    dnrA_3 = kappa**2*niA_sim   -  gamma_R*nrA_sim  - (R/2)*nrA_sim*(1+dzeta_sim)*n_total_sim
+    dnrB_3 = kappa**2*niB_sim   -  gamma_R*nrB_sim  - (R/2)*nrB_sim*(1-dzeta_sim)*n_total_sim
+    dniA_3 = PA[i] - kappa**2*niA_sim*niA_sim - gamma_I*niA_sim
+    dniB_3 = PB[i] - kappa**2*niB_sim*niB_sim - gamma_I*niB_sim
+
+    dzeta_sim = dzeta + ddzeta_3*dt
+    phi_sim = phi + dphi_3*dt
+    n_total_sim = n_total + dn_total_3*dt
+    nrA_sim = nrA + dnrA_3*dt
+    nrB_sim = nrB + dnrB_3*dt
+    niA_sim = niA + dniA_3*dt
+    niB_sim = niB + dniB_3*dt
+
+    #----------------------------------------------------------------------------
+    ddzeta_4 = (R/2)*(nrA_sim-nrB_sim)*(1-dzeta_sim*dzeta_sim) - (2*J/hbar)*(np.sin(phi_sim))*(np.sqrt(abs(1-dzeta_sim*dzeta_sim)))
+    dphi_4 = (1/hbar)*(g_R*(nrA_sim-nrB_sim)+g_R*(niA_sim-niB_sim)  -   epsilon   +   g_C*(dzeta_sim*n_total_sim) +  J*np.cos(phi_sim)*dzeta_sim/(np.sqrt(abs(1-dzeta_sim*dzeta_sim))))
+    dn_total_4 = n_total_sim*((R/2)*(nrA_sim+nrB_sim)+(R/2)*(nrA_sim-nrB_sim)*dzeta_sim-gamma_C)
+    dnrA_4 = kappa**2*niA_sim   -  gamma_R*nrA_sim  - (R/2)*nrA_sim*(1+dzeta_sim)*n_total_sim
+    dnrB_4 = kappa**2*niB_sim   -  gamma_R*nrB_sim  - (R/2)*nrB_sim*(1-dzeta_sim)*n_total_sim
+    dniA_4 = PA[i] - kappa**2*niA_sim*niA_sim - gamma_I*niA_sim
+    dniB_4 = PB[i] - kappa**2*niB_sim*niB_sim - gamma_I*niB_sim
+
+    dzeta = dzeta + (ddzeta_1 + 2*ddzeta_2 + 2*ddzeta_3 + ddzeta_4)*(dt/6)
+    phi = phi  +  (dphi_1 + 2*dphi_2 + 2*dphi_3 + dphi_4 )*(dt/6)
+    n_total = n_total + (dn_total_1 + 2*dn_total_2 + 2*dn_total_3 + dn_total_4 )*(dt/6)
+    nrA = nrA + (dnrA_1 + 2*dnrA_2 + 2*dnrA_3 + dnrA_4 )*(dt/6)
+    nrB = nrB + (dnrB_1 + 2*dnrB_2 + 2*dnrB_3 + dnrB_4 )*(dt/6)
+    niA = niA + (dniA_1 + 2*dniA_2 + 2*dniA_3 + dniA_4 )*(dt/6)
+    niB = niB + (dniB_1 + 2*dniB_2 + 2*dniB_3 + dniB_4 )*(dt/6)
+
+    ###################################################################################
+  ncA = (1/2)*(dzeta_data*n_total_data+n_total_data)
+  ncB = (1/2)*(n_total_data-dzeta_data*n_total_data)
+  intA = np.sum(ncA)
+  intB = np.sum(ncB)
+  return intA,intB, ncA,ncB, dzeta_data, phi_data, n_total_data, nrA, nrB, niA, niB
+
+
+
+
+################ SOLVER USING ADAPTATIVE INTEGRATION ALGORITHM ######################
+
+#PHYSICAL PARAMETERS
+hbar =  0.65821195;                                                                                                # [meV ps]
+gamma_C = 1/30                                                                                                     
+gamma_R = 1/200
+gamma_I = 1/300
+R =  2.0*10**-4
+g_C = 0.0015
+g_R = 0.0025
+Delta = [14,2]  #[condensate1,condensate2] 1- [2,2], 2- [3,2] 3- [4,2], 4- [6,2], 5-[8,2], 6- [14,2]
+kappa = 2
+J = 0.9
+T = 1
+EA = 1000
+EB = 6000
+samples = 100
+PA = EA*np.ones([samples])
+PB = np.linspace(0,EB,samples)
+
+Parameters = [hbar,gamma_C,gamma_R,gamma_I,R,g_C,g_R,Delta,kappa,J]
+
+#INITIAL CONDITIONS
+c0A = 0.001
+nr0A = 0.001
+ni0A = 0.001
+c0B = 0.001
+nr0B = 0.001
+ni0B = 0.001
+dzeta0 = ((abs(c0A))**2 - (abs(c0B))**2)/((abs(c0A))**2 + (abs(c0B))**2)
+phi0 = 0
+n_total0 = ((abs(c0A))**2 + (abs(c0B))**2)
+
+#SIMULATION PARAMETERS
+t0 = 200
+tmax = 800
+Nt = 60000
+time = np.linspace(0,tmax,60000)
+dt = time[1]-time[0]
+
+INTA = []
+INTB = []
+Ntt = 45000
+mapnA = np.zeros([samples,Ntt])
+mapnB = np.zeros([samples,Ntt])
+mapcA = np.zeros([samples,Ntt])
+mapcB = np.zeros([samples,Ntt])
+
+for i in tqdm(range(samples)):
+  def Gpe(t,y):
+    cA = y[0]
+    cB = y[1]
+    nrA = y[2]
+    nrB = y[3]
+    niA = y[4]
+    niB = y[5]
+    dcA = -(1j/hbar)*(-J*cB   +  (0.5*1j*hbar*(R*nrA-gamma_C) +  g_C*(abs(cA))**2 + g_R*nrA + g_R*niA + Delta[0])*cA)
+    dcB = -(1j/hbar)*(-J*cA   +  (0.5*1j*hbar*(R*nrB-gamma_C) +  g_C*(abs(cB))**2 + g_R*nrB + g_R*niB + Delta[1])*cB)
+    dnrA = (kappa**2)*(niA**2) - gamma_R*nrA - R*nrA*((abs(cA))**2)
+    dnrB = (kappa**2)*(niB**2) - gamma_R*nrB - R*nrB*((abs(cB))**2)
+    dniA = PA[i]*np.exp(((-(t-t0)**2)/(T**2))) - kappa*kappa*(niA**2) - gamma_I*niA
+    dniB = PB[i]*np.exp(((-(t-t0)**2)/(T**2))) - kappa*kappa*(niB**2) - gamma_I*niB
+    dzdt = [dcA,dcB,dnrA,dnrB,dniA,dniB]
+    return dzdt
+  y0 =  [c0A,c0B,nr0A,nr0B,ni0A,ni0B]
+  t0 = 200
+  z = complex_ode(Gpe)
+  z.set_initial_value(y0, t0)
+  CA_data = []
+  CB_data = []
+  nA_data = []
+  nB_data = []
+  while z.t < tmax:
+      sol1 = z.integrate(z.t+dt)
+      CA_data.append(abs(sol1[0])**2)
+      CB_data.append(abs(sol1[1])**2)
+      nA_data.append(sol1[2])
+      nB_data.append(sol1[3])
+  mapnA[i,:] = nA_data
+  mapnB[i,:] = nB_data
+  mapcA[i,:] = CA_data
+  mapcB[i,:] = CB_data
+  CA_array = np.array(CA_data)
+  CB_array = np.array(CB_data)
+  INTA.append(np.sum(CA_array)*dt/10000)
+  INTB.append(np.sum(CB_array)*dt/10000)
+images_dir = '/content/gdrive/MyDrive/obrazki/'
+nA1 = open(images_dir+'0_nA.csv', 'w', encoding='UTF8', newline='')
+writer1 = csv.writer(nA1)
+writer1.writerows(mapnA)
+nA2 = open(images_dir+'0_nB.csv', 'w', encoding='UTF8', newline='')
+writer1 = csv.writer(nA2)
+writer1.writerows(mapnB)
+nA3 = open(images_dir+'0_cA.csv', 'w', encoding='UTF8', newline='')
+writer1 = csv.writer(nA3)
+writer1.writerows(mapcA)
+nA4 = open(images_dir +'0_cB.csv', 'w', encoding='UTF8', newline='')
+writer1 = csv.writer(nA4)
+writer1.writerows(mapcB)
+
+plt.scatter(PB/PA,INTA)
+plt.scatter(PB/PA,INTB)
+plt.show()
+fig,ax = plt.subplots(figsize=(10,14))
+m = ax.imshow(np.flipud(mapnB),extent=[time[0],time[-1],PB[0]/PA[0],PB[-1]/PA[-1]],aspect=5,cmap='Greens')
+fig.colorbar(m, orientation='vertical',fraction=0.026, pad=0.04)
+ax.set_title('$|n^{(1)}_{R}|^2$')
+ax.set_xlabel('$t$')
+ax.set_ylabel('$P/P_{0}$')
+plt.show()
+fig,ax = plt.subplots(figsize=(10,14))
+m = ax.imshow(np.flipud(mapnA),extent=[time[0],time[-1],PB[0]/PA[0],PB[-1]/PA[-1]],aspect=5,cmap='Greens')
+fig.colorbar(m, orientation='vertical',fraction=0.026, pad=0.04)
+ax.set_title('$|n^{(2)}_{R}|^2$')
+ax.set_xlabel('$t$')
+ax.set_ylabel('$P/P_{0}$')
+plt.show()
+fig,ax = plt.subplots(figsize=(10,14))
+m = ax.imshow(np.flipud(mapcB),extent=[time[0],time[-1],PB[0]/PA[0],PB[-1]/PA[-1]],aspect=5,cmap='Reds')
+fig.colorbar(m, orientation='vertical',fraction=0.026, pad=0.04)
+ax.set_title('$|C^{(1)}_{R}|^2$')
+ax.set_xlabel('$t$')
+ax.set_ylabel('$P/P_{0}$')
+plt.show()
+fig,ax = plt.subplots(figsize=(10,14))
+m = ax.imshow(np.flipud(mapcA),extent=[time[0],time[-1],PB[0]/PA[0],PB[-1]/PA[-1]],aspect=5,cmap='Reds')
+fig.colorbar(m, orientation='vertical',fraction=0.026, pad=0.04)
+ax.set_title('$|C^{(2)}_{R}|^2$')
+ax.set_xlabel('$t$')
+ax.set_ylabel('$P/P_{0}$')
+plt.show()
