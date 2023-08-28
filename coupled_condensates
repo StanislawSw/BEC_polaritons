@@ -1,0 +1,121 @@
+import numpy as np
+import torch
+import time
+from scipy.integrate import complex_ode
+from scipy.integrate import ode
+import matplotlib.pyplot as plt
+import csv
+from tqdm import tqdm
+import os, psutil
+process = psutil.Process(os.getpid())
+cuda0 = torch.device('cuda:0')
+import pandas as pd
+import numpy.linalg as linalg
+cuda0 = torch.device('cuda:0')
+from matplotlib.collections import LineCollection
+from matplotlib.colors import ListedColormap, BoundaryNorm
+from matplotlib import cm
+from matplotlib import ticker
+from google.colab import drive
+drive.mount('/content/gdrive')
+
+################# SOLVER USING THE 4TH ORDER RUNGE-KUTTA ALGORITHM ##############
+
+def GPE_SOLVER_INITIAL(Parameters,initial_cond,PA,PB):             
+
+  [hbar,gamma_C,gamma_R,gamma_I,R,g_C,g_R,Delta,kappa,J] = Parameters
+  [cA,nrA,niA,cB,nrB,niB] = initial_cond
+
+  DA = Delta[0]
+  DB = Delta[1]
+
+
+  cA_data = np.zeros([len(time)],dtype='complex')
+  nrA_data = np.zeros([len(time)])
+  niA_data = np.zeros([len(time)])
+  cB_data = np.zeros([len(time)],dtype='complex')
+  nrB_data = np.zeros([len(time)])
+  niB_data = np.zeros([len(time)])
+
+
+
+  for i in range(len(time)):
+
+    cA_data[i] = cA
+    nrA_data[i] = np.real(nrA)
+    niA_data[i] = np.real(niA)
+    cB_data[i] = cB
+    nrB_data[i] = np.real(nrB)
+    niB_data[i] = np.real(niB)
+
+    #########################################  RK4
+    dcA_1 = -(1j/hbar)*(-J*cB   +  (0.5*1j*hbar*(R*nrA-gamma_C) +  g_C*(abs(cA))**2 + g_R*nrA + g_R*niA + DA)*cA)
+    dnrA_1 = (kappa**2)*niA - gamma_R*nrA - R*nrA*((abs(cA))**2)
+    dniA_1 = PA[i] - kappa*kappa*(niA**2) - gamma_I*niA
+
+    dcB_1 = -(1j/hbar)*(-J*cA   +  (0.5*1j*hbar*(R*nrB-gamma_C) +  g_C*(abs(cB))**2 + g_R*nrB + g_R*niB + DB)*cB)
+    dnrB_1 = (kappa**2)*niB - gamma_R*nrB - R*nrB*((abs(cB))**2)
+    dniB_1 = PB[i] - kappa*kappa*(niB**2) - gamma_I*niB
+
+    cA_sim = cA + 0.5*dcA_1*dt
+    nrA_sim = nrA + 0.5*dnrA_1*dt
+    niA_sim = niA + 0.5*dniA_1*dt
+
+    cB_sim = cB + 0.5*dcB_1*dt
+    nrB_sim = nrB + 0.5*dnrB_1*dt
+    niB_sim = niB + 0.5*dniB_1*dt
+    #---------------------------------------------------------------------------------------------------------------------------
+    dcA_2 = -(1j/hbar)*(-J*cB_sim   +  (0.5*1j*hbar*(R*nrA_sim-gamma_C) +  g_C*(abs(cA_sim))**2 + g_R*nrA_sim + g_R*niA_sim + DA)*cA_sim)
+    dnrA_2 = (kappa**2)*niA_sim - gamma_R*nrA_sim - R*nrA_sim*((abs(cA_sim))**2)
+    dniA_2 = PA[i] - kappa*kappa*(niA_sim**2) - gamma_I*niA_sim
+
+    dcB_2 = -(1j/hbar)*(-J*cA_sim   +  (0.5*1j*hbar*(R*nrB_sim-gamma_C) +  g_C*(abs(cB_sim))**2 + g_R*nrB_sim + g_R*niB_sim + DB)*cB_sim)
+    dnrB_2 = (kappa**2)*niB_sim - gamma_R*nrB_sim - R*nrB_sim*((abs(cB_sim))**2)
+    dniB_2 = PB[i] - kappa*kappa*(niB_sim**2) - gamma_I*niB_sim
+
+    cA_sim = cA + 0.5*dcA_2*dt
+    nrA_sim = nrA + 0.5*dnrA_2*dt
+    niA_sim = niA + 0.5*dniA_2*dt
+
+    cB_sim = cB + 0.5*dcB_2*dt
+    nrB_sim = nrB + 0.5*dnrB_2*dt
+    niB_sim = niB + 0.5*dniB_2*dt
+    #---------------------------------------------------------------------------------------------------------------------------
+    dcA_3 = -(1j/hbar)*(-J*cB_sim   +  (0.5*1j*hbar*(R*nrA_sim-gamma_C) +  g_C*(abs(cA_sim))**2 + g_R*nrA_sim + g_R*niA_sim + DA)*cA_sim)
+    dnrA_3 = (kappa**2)*niA_sim - gamma_R*nrA_sim - R*nrA_sim*((abs(cA_sim))**2)
+    dniA_3 = PA[i] - kappa*kappa*(niA_sim**2) - gamma_I*niA_sim
+
+    dcB_3 = -(1j/hbar)*(-J*cA_sim   +  (0.5*1j*hbar*(R*nrB_sim-gamma_C) +  g_C*(abs(cB_sim))**2 + g_R*nrB_sim + g_R*niB_sim + DB)*cB_sim)
+    dnrB_3 = (kappa**2)*niB_sim - gamma_R*nrB_sim - R*nrB_sim*((abs(cB_sim))**2)
+    dniB_3 = PB[i] - kappa*kappa*(niB_sim**2) - gamma_I*niB_sim
+
+    cA_sim = cA + dcA_3*dt
+    nrA_sim = nrA + dnrA_3*dt
+    niA_sim = niA + dniA_3*dt
+
+    cB_sim = cB + dcB_3*dt
+    nrB_sim = nrB + dnrB_3*dt
+    niB_sim = niB + dniB_3*dt
+    #---------------------------------------------------------------------------------------------------------------------------
+    dcA_4 = -(1j/hbar)*(-J*cB_sim   +  (0.5*1j*hbar*(R*nrA_sim-gamma_C) +  g_C*(abs(cA_sim))**2 + g_R*nrA_sim + g_R*niA_sim + DA)*cA_sim)
+    dnrA_4 = (kappa**2)*niA_sim - gamma_R*nrA_sim - R*nrA_sim*((abs(cA_sim))**2)
+    dniA_4 = PA[i] - kappa*kappa*(niA_sim**2) - gamma_I*niA_sim
+
+    dcB_4 = -(1j/hbar)*(-J*cA_sim   +  (0.5*1j*hbar*(R*nrB_sim-gamma_C) +  g_C*(abs(cB_sim))**2 + g_R*nrB_sim + g_R*niB_sim + DB)*cB_sim)
+    dnrB_4 = (kappa**2)*niB_sim - gamma_R*nrB_sim - R*nrB_sim*((abs(cB_sim))**2)
+    dniB_4 = PB[i] - kappa*kappa*(niB_sim**2) - gamma_I*niB_sim
+
+    cA = cA + (dcA_1+2*dcA_2+2*dcA_3+dcA_4)*(dt/6)
+    nrA = nrA + (dnrA_1+2*dnrA_2+2*dnrA_3+dnrA_4)*(dt/6)
+    niA = niA + (dniA_1+2*dniA_2+2*dniA_3+dniA_4)*(dt/6)
+
+    cB  = cB + (dcB_1+2*dcB_2+2*dcB_3+dcB_4)*(dt/6)
+    nrB = nrB + (dnrB_1+2*dnrB_2+2*dnrB_3+dnrB_4)*(dt/6)
+    niB = niB + (dniB_1+2*dniB_2+2*dniB_3+dniB_4)*(dt/6)
+    ###################################################################################
+  intCA = np.sum((abs(cA_data))**2)
+  intCB = np.sum((abs(cB_data))**2)
+  A = (abs(cA_data))**2
+  B = (abs(cB_data))**2
+
+  return intCA,intCB,A,B
